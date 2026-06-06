@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <title>校正入力</title>
+    </head>
+    <body>
+        <h2>校正入力: <span th:text="${equipment.name}">機器名</span></h2>
+        <p>型式: <span th:text="${equipment.modelName}">型式</span></p>
+        <form th:action="@{/calibrate}" method="post">
+            <div>
+                <input type="hidden" name="equipmentId" th:value="${equipment.id}">
+            </div>
+            <div>
+                <label>校正日</label>
+                <input type="date" name="calibrationDate" required>
+            </div>
+            <div>
+                <label>結果</label>
+                <select name="result">
+                    <option value="合格">合格</option>
+                    <option value="不合格">不合格</option>
+                </select>
+            </div>
+            <div>
+                <label>備考</label>
+                <textarea name="note"></textarea>
+            </div>
+
+            <button type="submit">登録</button>
+        </form>
+        <hr>
+        <h3>過去の校正履歴</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>校正日</th>
+                    <th>結果</th>
+                    <th>備考</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="log : ${equipment.calibrationLogs}">
+                    <td th:text="${log.date}"></td>
+                    <td th:text="${log.result}"></td>
+                    <td th:text="${log.memo}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

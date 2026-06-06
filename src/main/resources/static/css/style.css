@@ -1,0 +1,66 @@
+/* 共通 */
+h1 {
+    color: #1a365d;
+}
+
+body, h1, p{
+ 
+ font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, sans-serif;
+ 
+}
+
+body{
+    /* 背景を白にする */
+    background-color:#f7f5f0;
+    /* 内側のゆとり */
+    padding:20px;
+    line-height: 1.6;
+}
+
+th, td{
+    border : 1px solid #e2e8f0;
+    padding: 20px;
+}
+
+/* index.html */
+table{
+    width:100%;
+    border-collapse: collapse;
+}
+
+.table-wrapper{
+    background-color:#ffffff;
+    /* 角の丸み */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+/* register.html */
+.btn-button {
+    background-color: #737373 !important;
+    color: #fff !important;
+}
+
+form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+form div {
+    /* 外側のゆとり */
+    margin-bottom: 30px;
+}
+
+label {
+    /* 改行 */
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+

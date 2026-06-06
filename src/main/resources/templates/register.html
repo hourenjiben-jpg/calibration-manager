@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <title>校正機器登録</title>
+    </head>
+    <body>
+        <h1>新しい機器の登録</h1>
+        <form th:action="@{/register}" th:object="${register}" method="post">
+            <div>
+                <label>機器名</label>
+                <input type="text" th:field="*{name}">
+            </div>
+            <div>
+                <label>型式</label>
+                <input type="text" th:field="*{modelName}">
+            </div>
+            <div>
+                <label>製造番号</label>
+                <input type="text" th:field="*{serialNumber}">
+            </div>
+            <div>
+                <label>校正日</label>
+                <input type="date" th:field="*{calibrationDate}">
+            </div>
+            <div>
+                <label for="period">校正周期</label>
+                <select id="period" name="period">
+                    <option value="1">1ヶ月</option>
+                    <option value="2">2ヶ月</option>
+                    <option value="3">3ヶ月</option>
+                    <option value="6">6ヶ月</option>
+                    <option value="12">1年(12ヶ月)</option>
+                    <option value="24">2年(24ヶ月)</option>
+                    <option value="36">3年(36ヶ月)</option>
+                </select>
+            </div>
+            <div>
+                <label>校正期限</label>
+                <input type="date" th:field="*{calibrationDeadline}">
+            </div>
+
+            <div>
+            <button type="submit" style="background-color: #737373; color: #fff; padding: 10px; border-radius: 4px; width: 100%">登録する</button>
+            </div>
+        </form>
+
+        <a th:href="@{/title}">一覧に戻る</a>
+    </body>
+</html>

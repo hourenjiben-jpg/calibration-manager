@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>編集画面</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <h1>編集</h1>
+        <form th:action="@{/edit}" th:object="${equipment}" method="post">
+            <input type="hidden" th:field="*{id}">
+            <div>
+                <label>機器名</label>
+                <input type="text" th:field="*{name}">
+            </div>
+            <div>
+                <label>型式</label>
+                <input type="text" th:field="*{modelName}">
+            </div>
+            <div>
+                <label>製造番号</label>
+                <input type="text" th:field="*{serialNumber}">
+            </div>
+            <div>
+                <label>校正日</label>
+                <input type="date" th:field="*{calibrationDate}">
+            </div>
+            <div>
+                <label>校正期限</label>
+                <input type="date" th:field="*{calibrationDeadline}">
+            </div>
+
+
+            <button type="submit" style="background-color: #737373; color: #fff; padding: 10px; border-radius: 4px; width: 100%">更新</button>
+        </form>
+    </body>
+</html>

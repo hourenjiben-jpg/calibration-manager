@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <title>校正機器管理アプリ</title>
+    </head>
+    <body>
+        <h1>校正期限管理アプリ</h1>
+        <p>これは校正機器を管理するアプリです</p>
+        <a th:href="@{/register}">新規登録</a>
+        <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>機器名</th>
+                    <th>型式</th>
+                    <th>製造番号</th>
+                    <th>校正日</th>
+                    <th>校正期限</th>
+                    <th>ステータス</th>
+                    <th>削除</th>
+                    <th>編集</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="e : ${item}">
+                <td th:text="${e.id}"></td>
+                <td th:text="${e.name}">ここに名前が入る</td>
+                <td th:text="${e.modelName}">型式</td>
+                <td th:text="${e.serialNumber}">シリアルナンバー</td>
+                <td th:text="${e.calibrationDate}">校正期限</td>
+                <td th:text="${e.calibrationDeadline}">次回校正時期</td>
+                <td th:text="${e.status}">ステータス</td>
+                <td>
+                    <a th:href="@{/delete/{id}(id=${e.id})}">削除</a>
+                </td>
+                <td>
+                    <a th:href="@{/edit/{id}(id=${e.id})}">編集</a>
+                </td>
+                <td>
+                    <a th:href="@{/calibrate/{id}(id=${e.id})}">校正入力</a>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </body>
+</html>

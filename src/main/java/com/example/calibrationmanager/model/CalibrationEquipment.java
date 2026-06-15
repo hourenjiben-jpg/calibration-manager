@@ -20,9 +20,13 @@ public class CalibrationEquipment {
     private LocalDate calibrationDeadline;
     private int period; // 周期
     private String status = "有効"; // 有効、無効
+
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CalibrationLog> calibrationLogs;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tenant_id", nullable = false)
+    private Tenant tenant;
 
     public Long getId(){
         return id;
@@ -95,4 +99,13 @@ public class CalibrationEquipment {
     public void setCalibrationLogs(List<CalibrationLog> calibrationLog) {
         this.calibrationLogs = calibrationLog;
     }
+
+    public Tenant getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(Tenant tenant) {
+        this.tenant = tenant;
+    }
 }
+

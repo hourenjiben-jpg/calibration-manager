@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>アカウント新規登録</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <h2>アカウント新規登録</h2>
+
+        <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red"></p>
+        <form th:action="@{/signup}" th:object="${user}" method="post">
+            <div>
+                <label>企業ログイン番号(英数字)</label>
+                <input type="text" name="tenantCode" placeholder="例: comp001" required />
+            </div>
+            <div>
+                <label>会社名・組織名</label>
+                <input type="text" name="tenantName" placeholder="例: 〇〇製造株式会社" required />
+            </div>
+
+            <hr style="border: 1px dashed #ccc; margin: 20px 0;">
+
+            <div>
+                <label>ユーザー名</label>
+                <input type="text" th:field="*{username}" required />
+            </div>
+            <div>
+                <label>パスワード</label>
+                <input type="password" th:field="*{password}" required />
+            </div>
+            <button type="submit" class="btn-signup" style="background-color: #8263c7" >登録する</button>
+        </form>
+
+        <br>
+        <a th:href="@{/login}">ログイン画面に戻る</a> 
+    </body>
+</html>

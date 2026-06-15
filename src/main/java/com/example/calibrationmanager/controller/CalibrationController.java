@@ -2,6 +2,8 @@ package com.example.calibrationmanager.controller;
 
 import com.example.calibrationmanager.model.CalibrationEquipment;
 import com.example.calibrationmanager.model.CalibrationLog;
+import com.example.calibrationmanager.model.Tenant;
+import com.example.calibrationmanager.model.User;
 import com.example.calibrationmanager.repository.CalibrationRepository;
 import com.example.calibrationmanager.repository.CalibrationLogRepository;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +31,10 @@ public class CalibrationController {
     private CalibrationLogRepository logRepository;
 
     @GetMapping("/title")
-    public String title(Model model) {
-        List<CalibrationEquipment> equipment = repository.findAll();
+    public String title(Model model, @AuthenticationPrincipal User currentUser) {
+
+        Tenant tenant = currentUser.getTenant();
+        List<CalibrationEquipment> equipment = repository.findByTenant(tenant);
 
         model.addAttribute("item", equipment);
 
@@ -46,7 +51,10 @@ public class CalibrationController {
     }
 
     @PostMapping("/register")
-    public String registerPost(CalibrationEquipment equipment) {
+    public String registerPost(CalibrationEquipment equipment, @AuthenticationPrincipal User currentUser) {
+        // 登録機器に操作中ユーザーのテナントを強制的に紐付け
+        equipment.setTenant(currentUser.getTenant());
+
         LocalDate date = equipment.getCalibrationDate();
         int period = equipment.getPeriod();
 
@@ -60,35 +68,46 @@ public class CalibrationController {
     }
     
     @GetMapping("/delete/{id}")
-    public String deleteEquipment(@PathVariable("id") Long id) {
-        repository.deleteById(id);
+    public String deleteEquipment(@PathVariable("id") Long id, @AuthenticationPrincipal User currentUser) {
+
+        CalibrationEquipment equipment = repository.findById(id).orElse(null);
+        if(equipment != null && equipment.getTenant().getId().equals(currentUser.getTenant().getId())) {
+            repository.deleteById(id);
+        }
 
         return "redirect:/title";
     }
 
     @GetMapping("/edit/{id}")
-    public String editEuqipment(@PathVariable("id") Long id, Model model) {
+    public String editEuqipment(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User currentUser) {
 
         CalibrationEquipment equipment =  repository.findById(id).orElse(null);
 
+        if(equipment == null || !equipment .getTenant().getId().equals(currentUser.getTenant().getId())) {
+            return "redirect:/title";
+        }
         model.addAttribute("equipment", equipment);
 
         return "edit";
     }
 
     @PostMapping("/edit")
-    public String editPost(CalibrationEquipment equipment) {
+    public String editPost(CalibrationEquipment equipment, @AuthenticationPrincipal User currentUser) {
 
+        equipment.setTenant(currentUser.getTenant());
         repository.save(equipment);
 
         return "redirect:/title";
     }
 
     @GetMapping("/calibrate/{id}")
-    public String calibrateGet(@PathVariable("id") Long id, Model model) {
+    public String calibrateGet(@PathVariable("id") Long id, Model model, @AuthenticationPrincipal User currentUser) {
         CalibrationEquipment equipment = repository.findById(id)
                   .orElseThrow(() -> new IllegalArgumentException("無効な機器ID:" + id));
 
+        if(!equipment.getTenant() .getId().equals(currentUser.getTenant().getId())) {
+            return "redirect:/title";
+        }          
         model.addAttribute("equipment", equipment);
 
         return "calibrate";
@@ -99,12 +118,16 @@ public class CalibrationController {
         @RequestParam("equipmentId") Long equipmentId,
         @RequestParam("calibrationDate") String calibrationDate,
         @RequestParam("result") String result,
-        @RequestParam("note") String note
+        @RequestParam("note") String note,
+        @AuthenticationPrincipal User currentUser
      ) {
 
         CalibrationEquipment equipment = repository.findById(equipmentId)
                   .orElseThrow(() -> new IllegalArgumentException("無効な機器ID:" + equipmentId));
 
+        if(!equipment.getTenant().getId().equals(currentUser.getTenant().getId())) {
+            return "redirect:/title";
+        }
         CalibrationLog log = new CalibrationLog();
 
         log.setEquipment(equipment);

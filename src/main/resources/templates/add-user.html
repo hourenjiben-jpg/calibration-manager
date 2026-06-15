@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>社内メンバー追加</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <h2>社内メンバー追加</h2>
+
+        <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message" style="color: red; font-weight: bold;"></p>
+        <p th:if="${successMessage}" th:text="${successMessage}" style="color: green; font-weight: bold;"></p>
+
+        <form th:action="@{/admin/users/add}" method="post">
+            <div>
+                <label>新メンバーのユーザー名:</label>
+                <input type="text" name="username" placeholder="例: tanaka" required />
+            </div>
+            <div>
+                <label>初期パスワード</label>
+                <input type="password" name="password" required />
+            </div>
+
+            <br>
+            <button type="submit" class="btn-signup">メンバーを登録する</button> 
+        </form>
+
+        <br><hr><br>
+
+        <h2>社内メンバー一覧・パスワード再設定</h2>
+        <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px; width: 30%;">ユーザー名</th>
+                    <th style="padding: 8px; width: 70%;">パスワード再設定（忘れた場合に入力）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td style="padding: 8px; font-weight: bold;" th:text="${user.username}">ユーザー名</td>
+                    <td style="padding: 8px;">
+                        <form th:action="@{/admin/users/reset-password}" method="post" style="display: flex; gap: 10px; align-items: center; margin: 0;">
+                            <input type="hidden" name="userId" th:value="${user.id}" />
+
+                            <input type="password" name="newPassword" placeholder="新しいパスワード" required style="padding: 4px; width: 200px;" />
+                            <button type="submit" style="background-color: #e53e3e; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius:4px;">変更確定</button>
+
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br><br>
+        <a th:href="@{/title}">データ一覧画面に戻る</a>
+    </body>
+</html>

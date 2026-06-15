@@ -4,6 +4,12 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" th:href="@{/css/style.css}">
         <title>校正機器管理アプリ</title>
+        <form th:action="@{/logout}" method="post" style="display: inline; padding: 0px;">
+             <button type="submit" class="btn-logout" >
+                ログアウト
+             </button>
+        </form>    
+        <a th:href="@{/admin/users/add}" style="margin-left: 20px;">メンバーを追加する</a>
     </head>
     <body>
         <h1>校正期限管理アプリ</h1>

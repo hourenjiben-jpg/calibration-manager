@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h2>ログインフォーム</h2>
+
+    <div th:if="${param.logout}" style="color: green; margin-bottom: 10px;">
+        ログアウトしました。
+    </div>
+
+    <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
+        企業名、ユーザー名またはパスワードが違います。
+    </div>
+
+    <form id="loginForm" th:action="@{/login}" method="post" onsubmit="combineFields()">
+
+        <div>
+            <label>企業ログイン番号</label>
+            <input type="text" id="tenantCode" placeholder="例: comp001" required />
+        </div>
+        <div>
+            <label>ユーザー名:</label>
+            <input type="text" id="displayUsername" placeholder="例: tanaka" required />
+        </div>
+
+        <input type="hidden" name="username" id="hiddenUsername">
+        <div>
+            <label>パスワード:</label>
+            <input type="password" name="password" required />
+        </div>
+        <button type="submit" class="btn-signup" style="background-color: #1a365d;">ログイン</button>
+    </form>
+
+    <br> 
+    <hr>
+    <p>初めてご利用ですか？</p>
+    <a th:href="@{/signup}" class="btn-signup">アカウント新規登録はこちら</a>
+
+    <script>
+        function combineFields() {
+            const tenantCode = document.getElementById('tenantCode').value.trim();
+            const username = document.getElementById('displayUsername').value.trim();
+
+            document.getElementById('hiddenUsername').value = tenantCode + "," + username;
+        }
+    </script>
+</body>
+</html>

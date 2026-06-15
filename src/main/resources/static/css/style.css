@@ -64,3 +64,31 @@ input {
     box-sizing: border-box;
 }
 
+/* ログアウトボタンのデザイン */
+.btn-logout {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-logout:hover {
+    background-color: #d32f2f;
+}
+
+/* 新規登録ボタンのデザイン */
+.btn-signup {
+    display: inline-block;
+    background-color: #4caf50;
+    color: white;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+/* ⭕ ここを完全に半角英数字に直しました！ */
+.btn-signup:hover {
+    background-color: #45a049;
+}
